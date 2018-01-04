@@ -1,0 +1,482 @@
+- id: 7877
+  name: Naboo Starfighter
+
+- id: 7915
+  name: Imperial V-wing Starfighter
+
+- id: 7931
+  name: Jedi T-6 Shuttle
+
+- id: 7956
+  name: Ewok Attack
+
+- id: 7958
+  name: 2011 Star Wars Advent Calendar
+
+- id: 7959
+  name: Geonosian Starfighter
+
+- id: 7961
+  name: Darth Maul's Sith Infiltrator
+
+- id: 7962
+  name: Anakin Skywalker and Sebulba's Podracers
+
+- id: 7965
+  name: Millennium Falcon
+
+- id: 8036
+  name: Separatist Shuttle
+
+- id: 8038
+  name: The Battle of Endor
+
+- id: 8085
+  name: Freeco Speeder
+
+- id: 8088
+  name: ARC-170 Starfighter
+
+- id: 8095
+  name: General Grievous' Starfighter
+
+- id: 8097
+  name: Slave I
+
+- id: 9490
+  name: Droid Escape
+
+- id: 9492
+  name: TIE Fighter
+
+- id: 9495
+  name: Gold Leader's Y-wing Starfighter
+
+- id: 9496
+  name: Desert Skiff
+
+- id: 9499
+  name: Gungan Sub
+
+- id: 9500
+  name: Sith Fury-class Interceptor
+
+- id: 9509
+  name: 2012 Star Wars Advent Calendar
+
+- id: 9515
+  name: Malevolence
+
+- id: 9674
+  name: Naboo Starfighter & Naboo
+
+- id: 9675
+  name: Sebulba's Podracer & Tatooine
+
+- id: 9676
+  name: TIE Interceptor & Death Star
+
+- id: 9677
+  name: X-wing Starfighter & Yavin 4
+
+- id: 9678
+  name: Twin-Pod Cloud Car & Bespin
+
+- id: 9679
+  name: AT-ST & Endor
+
+- id: 10188
+  name: Death Star
+
+- id: 10212
+  name: Imperial Shuttle
+
+- id: 10215
+  name: Obi-Wan's Jedi Starfighter
+
+- id: 10221
+  name: Super Star Destroyer
+
+- id: 10236
+  name: Ewok Village
+
+- id: 30243
+  name: Umbaran MHC
+
+- id: 30246
+  name: Imperial Shuttle
+
+- id: 30274
+  name: AT-DP
+
+- id: 30602
+  name: First Order Stormtrooper
+
+- id: 30602
+  name: First Order Stormtrooper
+
+- id: 40178
+  name: VIP Set V39
+
+- id: 75000
+  name: Clone Troopers vs. Droidekas
+
+- id: 75001
+  name: Republic Troopers vs. Sith Troopers
+
+- id: 75002
+  name: AT-RT
+
+- id: 75003
+  name: A-wing Starfighter
+
+- id: 75006
+  name: Jedi Starfighter & Kamino
+
+- id: 75007
+  name: Republic Assault Ship & Coruscant
+
+- id: 75008
+  name: TIE Bomber & Asteroid Field
+
+- id: 75014
+  name: Battle of Hoth
+
+- id: 75015
+  name: Corporate Alliance Tank Droid
+
+- id: 75016
+  name: Homing Spider Droid
+
+- id: 75017
+  name: Duel on Geonosis
+
+- id: 75019
+  name: AT-TE
+
+- id: 75021
+  name: Republic Gunship
+
+- id: 75022
+  name: Mandalorian Speeder
+
+- id: 75023
+  name: 2013 Star Wars Advent Calendar
+
+- id: 75025
+  name: Jedi Defender-class Cruiser
+
+- id: 75028
+  name: Clone Turbo Tank
+
+- id: 75029
+  name: AAT
+
+- id: 75030
+  name: Millennium Falcon
+
+- id: 75031
+  name: TIE Interceptor
+
+- id: 75032
+  name: X-Wing Fighter
+
+- id: 75033
+  name: Star Destroyer
+
+- id: 75035
+  name: Kashyyk Troopers
+
+- id: 75036
+  name: Utapau Troopers
+
+- id: 75037
+  name: Battle on Saleucami
+
+- id: 75038
+  name: Jedi Interceptor
+
+- id: 75039
+  name: V-Wing Starfighter
+
+- id: 75040
+  name: General Grievous' Wheel Bike
+
+- id: 75041
+  name: Vulture Droid
+
+- id: 75042
+  name: Droid Gunship
+
+- id: 75043
+  name: AT-AP
+
+- id: 75044
+  name: Droid Tri-Fighter
+
+- id: 75048
+  name: The Phantom
+
+- id: 75049
+  name: Snowspeeder
+
+- id: 75051
+  name: Jedi Scout Fighter
+
+- id: 75052
+  name: Mos Eisley Cantina
+
+- id: 75054
+  name: AT-AT
+
+- id: 75056
+  name: 2014 Star Wars Advent Calendar
+
+- id: 75058
+  name: MTT
+
+- id: 75059
+  name: Sandcrawler
+
+- id: 75060
+  name: Slave I
+
+- id: 75072
+  name: ARC-170 Starfighter
+
+- id: 75073
+  name: Vulture Droid
+
+- id: 75074
+  name: Snowspeeder
+
+- id: 75075
+  name: AT-AT
+
+- id: 75076
+  name: Republic Gunship
+
+- id: 75077
+  name: Homing Spide Droid
+
+- id: 75078
+  name: Imperial Troop Transport V39
+
+- id: 75079
+  name: Shadow Troopers V39
+
+- id: 75082
+  name: TIE Advanced Prototype
+
+- id: 75085
+  name: Hailfire Driod
+
+- id: 75086
+  name: Battle Droid Troop Carrier
+
+- id: 75087
+  name: Anakin's Custom Jedi Starfighter
+
+- id: 75088
+  name: Senate Commando Troopers
+
+- id: 75089
+  name: Geonosis Troopers
+
+- id: 75090
+  name: Ezra's Speeder Bike
+
+- id: 75091
+  name: Flash Speeder
+
+- id: 75092
+  name: Naboo Starfighter
+
+- id: 75093
+  name: Death Star Final Duel
+
+- id: 75094
+  name: Imperial Shuttle Tydirium
+
+- id: 75095
+  name: TIE Fighter
+
+- id: 75096
+  name: Sith Infiltrator
+
+- id: 75097
+  name: Star Wars Advent Calendar
+
+- id: 75098
+  name: Assault on Hoth
+
+- id: 75099
+  name: Rey's Speeder
+
+- id: 75100
+  name: First Order Snowspeeder
+
+- id: 75101
+  name: First Order Special Forces TIE Fighter
+
+- id: 75102
+  name: Poe's X-Wing Fighter
+
+- id: 75103
+  name: First Order Transporter
+
+- id: 75104
+  name: Kylo Ren's Command Shuttle
+
+- id: 75105
+  name: Millennium Falcon
+
+- id: 75106
+  name: Imperial Assault Carrier
+
+- id: 75107
+  name: Jango Fett
+
+- id: 75125
+  name: Resistance X-wing Fighter
+
+- id: 75126
+  name: First Order Snowspeeder
+
+- id: 75128
+  name: TIE Advanced Prototype
+
+- id: 75129
+  name: Wookiee Gunship
+
+- id: 75131
+  name: Resistance Trooper Battle Pack
+
+- id: 75132
+  name: First Order Battle Pack
+
+- id: 75132
+  name: First Order Battle Pack
+
+- id: 75133
+  name: Rebel Alliance Battle Pack
+
+- id: 75135
+  name: Obi-Wan's Jedi Interceptor
+
+- id: 75136
+  name: Driod Escape Pod V39
+
+- id: 75136
+  name: Droid Escape Pod V39
+
+- id: 75137
+  name: Carbon-Freezing Chamber V39
+
+- id: 75137
+  name: Carbon-Freezing Chamber V39
+
+- id: 75138
+  name: Hoth Attack
+
+- id: 75141
+  name: Kanan's Speeder Bike
+
+- id: 75142
+  name: Homing Spider Droid
+
+- id: 75144
+  name: Snowspeeder
+
+- id: 75145
+  name: Eclipse Fighter
+
+- id: 75146
+  name: Star Wars Advent Calendar 2016
+
+- id: 75147
+  name: StarScavenger
+
+- id: 75148
+  name: Encounter on Jakku
+
+- id: 75150
+  name: Vader's TIE Advanced vs. A-wing Starfighter
+
+- id: 75151
+  name: Clone Turbo Tank
+
+- id: 75152
+  name: Imperial Assault Hovertank
+
+- id: 75153
+  name: AT-ST Walker
+
+- id: 75154
+  name: TIE Striker V39
+
+- id: 75155
+  name: Rebel U-wing Fighter
+
+- id: 75156
+  name: Krennic's Imperial Shuttle
+
+- id: 75157
+  name: Captain Rex's AT-TE
+
+- id: 75158
+  name: Rebel Combat Frigate
+
+- id: 75159
+  name: Death Star
+
+- id: 75159
+  name: Death Star
+
+- id: 75160
+  name: U-wing
+
+- id: 75161
+  name: TIE Striker
+
+- id: 75162
+  name: Y-wing
+
+- id: 75163
+  name: Krennic's Imperial Shuttle
+
+- id: 75164
+  name: Rebel Trooper Battle Pack
+
+- id: 75165
+  name: Imperial Trooper Battle Pack
+
+- id: 75168
+  name: Yoda's Jedi Starfighter
+
+- id: 75169
+  name: Duel on Naboo
+
+- id: 75170
+  name: The Phantom
+
+- id: 75171
+  name: Battle on Scarif
+
+- id: 75172
+  name: Y-wing Starfighter
+
+- id: 75184
+  name: Star Wars Advent Calendar 2017
+
+- id: 75187
+  name: BB-8
+
+- id: 75192
+  name: Millennium Falcon
+
+- id: 5002947
+  name: Admiral Yularen
+
+- id: FANEXPO001-1
+  name: The Ghost Starship (FAN EXPO edition)
