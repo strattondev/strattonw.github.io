@@ -451,6 +451,12 @@
 - id: 75165
   name: Imperial Trooper Battle Pack
 
+- id: 75166
+  name: First Order Transport Speeder Battle Pack
+
+- id: 75167
+  name: Bounty Hunter Speeder Bike Battle Pack
+
 - id: 75168
   name: Yoda's Jedi Starfighter
 
@@ -465,6 +471,18 @@
 
 - id: 75172
   name: Y-wing Starfighter
+
+- id: 75173
+  name: Luke's Landspeeder
+
+- id: 75174
+  name: Desert Skiff Escape
+
+- id: 75176
+  name: Resistance Transport Pod
+
+- id: 75183
+  name: Darth Vader Transformation
 
 - id: 75184
   name: Star Wars Advent Calendar 2017
