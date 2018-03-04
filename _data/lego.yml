@@ -481,6 +481,12 @@
 - id: 75176
   name: Resistance Transport Pod
 
+- id: 75177
+  name: First Order Heavy Scout Walker
+
+- id: 75178
+  name: Jakku Quadjumper
+
 - id: 75182
   name: Republic Fighter Tank
 
@@ -489,6 +495,9 @@
 
 - id: 75184
   name: Star Wars Advent Calendar 2017
+
+- id: 75185
+  name: Tracker I
 
 - id: 75187
   name: BB-8
