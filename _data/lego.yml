@@ -379,6 +379,9 @@
 - id: 75138
   name: Hoth Attack
 
+- id: 75139
+  name: Battle on Takodana
+
 - id: 75141
   name: Kanan's Speeder Bike
 
@@ -487,6 +490,12 @@
 - id: 75178
   name: Jakku Quadjumper
 
+- id: 75179
+  name: Kylo Ren's TIE Fighter
+
+- id: 75181
+  name: Y-Wing Starfighter
+
 - id: 75182
   name: Republic Fighter Tank
 
@@ -505,8 +514,23 @@
 - id: 75192
   name: Millennium Falcon
 
+- id: 75193
+  name: Millennium Falcon Microfighter
+
+- id: 75194
+  name: First Order TIE Fighter Microfighter
+
+- id: 75196
+  name: A-Wing vs TIE Silencer Microfighters
+
+- id: 75198
+  name: Tatooine Battle Pack
+
 - id: 75201
   name: First Order AT-ST
+
+- id: 75206
+  name: Jedi™ and Clone Troopers™ Battle Pack
 
 - id: 5002947
   name: Admiral Yularen
