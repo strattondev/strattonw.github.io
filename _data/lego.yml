@@ -493,6 +493,9 @@
 - id: 75179
   name: Kylo Ren's TIE Fighter
 
+- id: 75180
+  name: Rathtar™ Escape
+
 - id: 75181
   name: Y-Wing Starfighter
 
@@ -511,6 +514,9 @@
 - id: 75187
   name: BB-8
 
+- id: 75188
+  name: Resistance Bomber
+
 - id: 75192
   name: Millennium Falcon
 
@@ -520,17 +526,41 @@
 - id: 75194
   name: First Order TIE Fighter Microfighter
 
+- id: 75195
+  name: Ski Speeder™ vs. First Order Walker™ Microfighters
+
 - id: 75196
   name: A-Wing vs TIE Silencer Microfighters
+
+- id: 75197
+  name: First Order Specialists Battle Pack
 
 - id: 75198
   name: Tatooine Battle Pack
 
+- id: 75199
+  name: General Grievous' Combat Speeder
+
+- id: 75200
+  name: Ahch-To Island™ Training
+
 - id: 75201
   name: First Order AT-ST
 
+- id: 75204
+  name: Sandspeeder™
+
+- id: 75205
+  name: Mos Eisley Cantina™
+
 - id: 75206
   name: Jedi™ and Clone Troopers™ Battle Pack
+
+- id: 75533
+  name: Boba Fett™
+
+- id: 75534
+  name: Darth Vader™
 
 - id: 5002947
   name: Admiral Yularen
