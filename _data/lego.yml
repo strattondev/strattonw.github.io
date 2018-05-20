@@ -118,6 +118,12 @@
 - id: 40178
   name: VIP Set V39
 
+- id: 41485
+  name: Finn
+
+- id: 41608
+  name: Han Solo™
+
 - id: 75000
   name: Clone Troopers vs. Droidekas
 
@@ -481,6 +487,9 @@
 - id: 75174
   name: Desert Skiff Escape
 
+- id: 75175
+  name: A-Wing Starfighter™
+
 - id: 75176
   name: Resistance Transport Pod
 
@@ -517,6 +526,9 @@
 - id: 75188
   name: Resistance Bomber
 
+- id: 75191
+  name: Jedi Starfighter™ With Hyperdrive
+
 - id: 75192
   name: Millennium Falcon
 
@@ -547,6 +559,9 @@
 - id: 75201
   name: First Order AT-ST
 
+- id: 75202
+  name: Defense of Crait™
+
 - id: 75204
   name: Sandspeeder™
 
@@ -555,6 +570,36 @@
 
 - id: 75206
   name: Jedi™ and Clone Troopers™ Battle Pack
+
+- id: 75113
+  name: Rey
+
+- id: 75115
+  name: Poe Dameron
+
+- id: 75116
+  name: Finn
+
+- id: 75117
+  name: Kylo Ren™
+
+- id: 75119
+  name: Sergeant Jyn Erso™
+
+- id: 75523
+  name: Scarif Stormtrooper™
+
+- id: 75524
+  name: Chirrut Îmwe
+
+- id: 75526
+  name: Elite TIE Fighter Pilot™
+
+- id: 75530
+  name: Chewbacca™
+
+- id: 75532
+  name: Scout Trooper™ & Speeder Bike™
 
 - id: 75533
   name: Boba Fett™
