@@ -343,6 +343,18 @@
 - id: 75107
   name: Jango Fett
 
+- id: 75113
+  name: Rey
+
+- id: 75115
+  name: Poe Dameron
+
+- id: 75116
+  name: Finn
+
+- id: 75117
+  name: Kylo Ren™
+
 - id: 75125
   name: Resistance X-wing Fighter
 
@@ -570,18 +582,6 @@
 
 - id: 75206
   name: Jedi™ and Clone Troopers™ Battle Pack
-
-- id: 75113
-  name: Rey
-
-- id: 75115
-  name: Poe Dameron
-
-- id: 75116
-  name: Finn
-
-- id: 75117
-  name: Kylo Ren™
 
 - id: 75119
   name: Sergeant Jyn Erso™
