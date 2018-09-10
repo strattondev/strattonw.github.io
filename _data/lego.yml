@@ -355,6 +355,9 @@
 - id: 75117
   name: Kylo Ren™
 
+- id: 75119
+  name: Sergeant Jyn Erso™
+
 - id: 75125
   name: Resistance X-wing Fighter
 
@@ -582,9 +585,6 @@
 
 - id: 75206
   name: Jedi™ and Clone Troopers™ Battle Pack
-
-- id: 75119
-  name: Sergeant Jyn Erso™
 
 - id: 75523
   name: Scarif Stormtrooper™
