@@ -540,6 +540,12 @@
 
 - id: 75188
   name: Resistance Bomber
+  
+- id: 75189
+  name: First Order Heavy Assault Walker
+
+- id: 75191
+  name: First Order Star Destroyer
 
 - id: 75191
   name: Jedi Starfighter™ With Hyperdrive
@@ -592,6 +598,15 @@
 - id: 75208
   name: Yoda's Hut
 
+- id: 75212
+  name: Kessel Run Millennium Falcon™
+
+- id: 75220
+  name: Sandcrawler
+
+- id: 75222
+  name: Betrayal at Cloud City™
+
 - id: 75523
   name: Scarif Stormtrooper™
 
@@ -612,6 +627,9 @@
 
 - id: 75534
   name: Darth Vader™
+
+- id: 75551
+  name: Darth Vader's Castle
 
 - id: 5002947
   name: Admiral Yularen
