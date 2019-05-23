@@ -4,6 +4,7 @@ title = "Wesley Stratton"
 theme = "minimal-bootstrap-hugo-theme"
 pygmentsCodefences = true
 pygmentsStyle = "github"
+publishDir = "docs"
 
 [taxonomies]
   tag = "tags"
