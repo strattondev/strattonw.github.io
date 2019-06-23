@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="generator" content="Hugo 0.55.6" />
+  
+  <meta name="description" content="Wesley Stratton">
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="https://stratton.dev/apple-touch-icon.png">
+  
+  <link rel="icon" type="image/png" sizes="32x32" href="https://stratton.dev/favicon-32x32.png">
+  
+  <link rel="icon" type="image/png" sizes="16x16" href="https://stratton.dev/favicon-16x16.png">
+  
+  <link rel="mask-icon" href="https://stratton.dev/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  
+  <link rel="stylesheet" href="https://stratton.dev/css/bootstrap.min.css" />
+  
+  <title>Spring Dependency Injection | Wesley Stratton</title>
+  
+  <style>
+body {
+  min-width: 300px;
+}
+
+.custom-navbar {
+  margin-bottom: 1em;
+  height: 60px;
+}
+
+.custom-navbar a {
+  display: inline-block; 
+  padding: 18px 0;
+  margin-right: 1em; 
+  font-weight: bold; 
+}
+
+.custom-navbar a:hover,
+.custom-navbar a:focus {
+  text-decoration: none; 
+}
+
+@media print {
+  .custom-navbar {
+    display: none;
+  }
+}
+
+article {
+  padding-bottom: 1em;
+}
+
+img {
+  max-width: 100%;
+}
+
+
+body {
+  background-color: #fff;
+}
+
+
+
+body {
+  color: #212529;
+}
+
+
+
+a {
+  color: #007bff;
+}
+
+
+
+a:hover,
+a:focus {
+  color: #0056b3;
+}
+
+
+
+.custom-navbar {
+  background-color: #FFF;
+}
+
+
+
+.custom-navbar a {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+
+
+.custom-navbar a:hover,
+.custom-navbar a:focus {
+  color: rgba(0 , 0, 0, 1);
+}
+
+
+
+.container {
+  max-width: 800px;
+}
+
+
+
+pre {
+  display: block;
+  padding: 9.5px;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit; 
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+code {
+  padding: 2px 4px;
+  color: inherit; 
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: .9em;
+}
+
+
+
+blockquote,
+.blockquote {
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  font-size: 1em;
+  border-left: 5px solid #6c757d;
+}
+
+</style>
+  <script>
+    !function(t,e){if(t&&!("doNotTrack"in t.navigator&&"1"===t.navigator.doNotTrack||"visibilityState"in t.document&&"prerender"===t.document.visibilityState||"localhost"===t.location.hostname||"file:"===t.location.protocol))try{var o={u:t.location.protocol+"//"+t.location.hostname+t.location.pathname,ua:t.navigator.userAgent,r:t.document.referrer,b:t.navigator.userAgent.search(/(bot|spider|crawl)/gi)>-1};try{o.tz=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(t){}var a=new XMLHttpRequest;a.open("POST","https://37ogj0rf82.execute-api.us-east-1.amazonaws.com/production/analytics",!0),a.setRequestHeader("Content-Type","text/plain; charset=UTF-8"),a.send(JSON.stringify(o))}catch(t){}}(window);
+  </script>
+</head>
+
+
+<body>
+  <nav class="custom-navbar">
+  <div class="container">
+    
+    <a href="/">Posts</a>
+    
+    <a href="/tags/">Tags</a>
+    
+    <a href="/aboot/">Aboot</a>
+    
+  </div>
+</nav>
+  
+  <div class="container">
+    <article>
+      <h1>Spring Dependency Injection</h1>
+<p>
+  <small class="text-secondary">
+  
+  
+  23 Jun 2019
+  </small>
+  
+
+<small><code><a href="https://stratton.dev/tags/java">java</a></code></small>
+
+
+<small><code><a href="https://stratton.dev/tags/spring">spring</a></code></small>
+
+</p>
+
+
+<p>There are three ways to inject dependencies into beans in Spring, listed below. In this post we&rsquo;ll quickly go over the three ways of injection.</p>
+
+<ol>
+<li>Constructor</li>
+<li>Setter</li>
+<li>Field</li>
+</ol>
+
+<h4 id="constructor-based-injection">Constructor-based injection</h4>
+
+<p>Constructor-based injection is typically the best way to go about injecting dependencies into beans. With constructor-based injection we&rsquo;re able to enforce two main ideas,</p>
+
+<ol>
+<li>Missing consturctor-based beans will cause a BeanDefinitionException if the dependency is missing</li>
+<li>We&rsquo;re able to make all constructor-based beans threadsafe by assigning them as <code>private final</code> class variables (more on this in a later blog post).</li>
+</ol>
+
+<p>Lets see constructor-based injection in action.</p>
+
+<pre><code>@Service
+public class ExampleService {
+    private final ExampleConstructorDependency exampleConstructorDependency;
+
+    @Autowired // As of Spring 4.3 this is no longer needed
+    public ExampleService(ExampleConstructorDependency exampleConstructorDependency) {
+        this.exampleContructorDependency = exampleConstructorDependency;
+    }
+}
+</code></pre>
+
+<h4 id="setter-base-injection">Setter-base injection</h4>
+
+<p>The second way to inject dependencies into beans is by using setter-based injection. Setter-based injection utilizes the typical <code>setX</code> to inject the dependency. Spring recommends utilizing setter-based injection when you&rsquo;re injecting optional dependencies.</p>
+
+<pre><code>@Service
+public class ExampleService {
+    private ExampleSetterDependency exampleSetterDependency;
+
+    @Autowired
+    public void setExampleSetterDependency(ExampleSetterDependency exampleSetterDependency) {
+        this.exampleSetterDependency = exampleSetterDependency;
+    }
+}
+</code></pre>
+
+<h4 id="field-based-injection">Field-based injection</h4>
+
+<p>The thrid way to inject dependencies into beans is by using field-based injection. Field-based injection is the simpliest and cleanest looking but it comes with some heavy drawbacks that make it very frowned upon.</p>
+
+<ol>
+<li>Utilizing Java reflection to inject the dependencies which is costlier and riskier than constructor or setter injection</li>
+<li>Vastly reduces ability to properly test the bean</li>
+
+<li><p>Adding dependencies becomes so easy that you could forget about Single Responsibility Principle and pile dependencies into a single bean</p>
+
+<pre><code>@Service
+public class ExampleService {
+@Autowired
+private ExampleFieldDependency exampleFieldDependency;
+}
+</code></pre></li>
+</ol>
+
+<h4 id="conclusion">Conclusion</h4>
+
+<p>In my daily work we have a team standard that all dependencies must be injected via constructor-based injection and all dependencies must be <code>private final</code>. This standard allows us to know that we&rsquo;re always going to be threadsafe in our dependencies and we&rsquo;re going to be consistent across all of the applications we manage. This directive doesn&rsquo;t work for all teams, which is totally fine, but the one thing I would stress is if you or your team is using field-based injection, have them switch to atleast setter-based injection. It maybe a bit uglier but you won&rsquo;t run into any of the multiple field-based injecttion drawbacks.</p>
+
+    </article>
+  </div>
+
+  
+  
+  
+
+  
+</body>
+
+</html>

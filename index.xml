@@ -6,10 +6,21 @@
     <description>Recent content on Wesley Stratton</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 02 Jun 2019 11:11:40 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2019 13:35:13 -0700</lastBuildDate>
     
 	<atom:link href="https://stratton.dev/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Spring Dependency Injection</title>
+      <link>https://stratton.dev/23-06-2019-spring-dependency-injection/</link>
+      <pubDate>Sun, 23 Jun 2019 13:35:13 -0700</pubDate>
+      
+      <guid>https://stratton.dev/23-06-2019-spring-dependency-injection/</guid>
+      <description>There are three ways to inject dependencies into beans in Spring, listed below. In this post we&amp;rsquo;ll quickly go over the three ways of injection.
+ Constructor Setter Field  Constructor-based injection Constructor-based injection is typically the best way to go about injecting dependencies into beans. With constructor-based injection we&amp;rsquo;re able to enforce two main ideas,
+ Missing consturctor-based beans will cause a BeanDefinitionException if the dependency is missing We&amp;rsquo;re able to make all constructor-based beans threadsafe by assigning them as private final class variables (more on this in a later blog post).</description>
+    </item>
     
     <item>
       <title>Static Website Analytics</title>

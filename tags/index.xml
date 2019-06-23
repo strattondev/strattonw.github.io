@@ -6,10 +6,28 @@
     <description>Recent content in Tags on Wesley Stratton</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 02 Jun 2019 11:11:40 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 23 Jun 2019 13:35:13 -0700</lastBuildDate>
     
 	<atom:link href="https://stratton.dev/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>java</title>
+      <link>https://stratton.dev/tags/java/</link>
+      <pubDate>Sun, 23 Jun 2019 13:35:13 -0700</pubDate>
+      
+      <guid>https://stratton.dev/tags/java/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>spring</title>
+      <link>https://stratton.dev/tags/spring/</link>
+      <pubDate>Sun, 23 Jun 2019 13:35:13 -0700</pubDate>
+      
+      <guid>https://stratton.dev/tags/spring/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>aws</title>
