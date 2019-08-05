@@ -1,0 +1,412 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="generator" content="Hugo 0.55.6" />
+  
+  <meta name="description" content="Wesley Stratton">
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="https://stratton.dev/apple-touch-icon.png">
+  
+  <link rel="icon" type="image/png" sizes="32x32" href="https://stratton.dev/favicon-32x32.png">
+  
+  <link rel="icon" type="image/png" sizes="16x16" href="https://stratton.dev/favicon-16x16.png">
+  
+  <link rel="mask-icon" href="https://stratton.dev/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  
+  <link rel="stylesheet" href="https://stratton.dev/css/bootstrap.min.css" />
+  
+  <title>AWS SAM Getting Started in Go | Wesley Stratton</title>
+  
+  <style>
+body {
+  min-width: 300px;
+}
+
+.custom-navbar {
+  margin-bottom: 1em;
+  height: 60px;
+}
+
+.custom-navbar a {
+  display: inline-block; 
+  padding: 18px 0;
+  margin-right: 1em; 
+  font-weight: bold; 
+}
+
+.custom-navbar a:hover,
+.custom-navbar a:focus {
+  text-decoration: none; 
+}
+
+@media print {
+  .custom-navbar {
+    display: none;
+  }
+}
+
+article {
+  padding-bottom: 1em;
+}
+
+img {
+  max-width: 100%;
+}
+
+
+body {
+  background-color: #fff;
+}
+
+
+
+body {
+  color: #212529;
+}
+
+
+
+a {
+  color: #007bff;
+}
+
+
+
+a:hover,
+a:focus {
+  color: #0056b3;
+}
+
+
+
+.custom-navbar {
+  background-color: #FFF;
+}
+
+
+
+.custom-navbar a {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+
+
+.custom-navbar a:hover,
+.custom-navbar a:focus {
+  color: rgba(0 , 0, 0, 1);
+}
+
+
+
+.container {
+  max-width: 800px;
+}
+
+
+
+pre {
+  display: block;
+  padding: 9.5px;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit; 
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+code {
+  padding: 2px 4px;
+  color: inherit; 
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: .9em;
+}
+
+
+
+blockquote,
+.blockquote {
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  font-size: 1em;
+  border-left: 5px solid #6c757d;
+}
+
+</style>
+  <script>
+    !function(t,e){if(t&&!("doNotTrack"in t.navigator&&"1"===t.navigator.doNotTrack||"visibilityState"in t.document&&"prerender"===t.document.visibilityState||"localhost"===t.location.hostname||"file:"===t.location.protocol))try{var o={u:t.location.protocol+"//"+t.location.hostname+t.location.pathname,ua:t.navigator.userAgent,r:t.document.referrer,b:t.navigator.userAgent.search(/(bot|spider|crawl)/gi)>-1};try{o.tz=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(t){}var a=new XMLHttpRequest;a.open("POST","https://37ogj0rf82.execute-api.us-east-1.amazonaws.com/production/analytics",!0),a.setRequestHeader("Content-Type","text/plain; charset=UTF-8"),a.send(JSON.stringify(o))}catch(t){}}(window);
+  </script>
+</head>
+
+
+<body>
+  <nav class="custom-navbar">
+  <div class="container">
+    
+    <a href="/">Posts</a>
+    
+    <a href="/tags/">Tags</a>
+    
+    <a href="/aboot/">Aboot</a>
+    
+  </div>
+</nav>
+  
+  <div class="container">
+    <article>
+      <h1>AWS SAM Getting Started in Go</h1>
+<p>
+  <small class="text-secondary">
+  
+  
+  4 Aug 2019
+  </small>
+  
+
+<small><code><a href="https://stratton.dev/tags/aws">aws</a></code></small>
+
+
+<small><code><a href="https://stratton.dev/tags/golang">golang</a></code></small>
+
+
+<small><code><a href="https://stratton.dev/tags/sam">sam</a></code></small>
+
+
+<small><code><a href="https://stratton.dev/tags/lambda">lambda</a></code></small>
+
+</p>
+
+
+<p>In this post we&rsquo;re going to set-up, deploy and, optionally, locally test an API Gateway and Lambda API backend. Using the default AWS SAM Go set-up we&rsquo;re going to deploy a Lambda that will be invoked by a GET API Gateway request.</p>
+
+<h4 id="command-overview">Command overview</h4>
+
+<p>Below is a quick list of commands we&rsquo;re going to be running to deploy our backend.</p>
+
+<pre><code># Creates a bucket for SAM to upload our packaged application to
+aws s3 mb s3://{BUCKET_NAME}
+
+# Creates the default SAM set-up for Go
+sam init --runtime go
+
+# Builds the application
+cd sam-app
+make build
+
+# Package and uploads the backend
+sam package --output-template packaged.yaml --s3-bucket {BUCKET_NAME}
+
+# Deploys the backend via CloudFormation
+sam deploy --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name {STACK_NAME}
+
+# Describes the SAM application stack to get us the API Gateway URL
+aws cloudformation describe-stacks --stack-name {STACK_NAME} --query &quot;Stacks[].Outputs&quot;
+
+# curl to invoke our lambda
+curl https://{REST_API_ID}.execute-api.{REGION}.amazonaws.com/Prod/hello/
+</code></pre>
+
+<h4 id="prerequisites">Prerequisites</h4>
+
+<p>We&rsquo;re going to assume a few things in this guide</p>
+
+<ol>
+<li>Have an AWS account</li>
+<li>AWSCLI and SAMCLI installed</li>
+<li>Configured default IAM inside AWSCLI</li>
+<li>Installed Docker (optional, if you want to test the endpoint locally)</li>
+</ol>
+
+<h4 id="step-1-make-our-s3-bucket">Step 1 - Make our S3 bucket</h4>
+
+<p>SAM requires a S3 bucket to deploy our application, so lets create our bucket. <code>{BUCKET_NAME}</code> should be chagned to your own value.</p>
+
+<pre><code>aws s3 mb s3://{BUCKET_NAME}
+</code></pre>
+
+<p>Example</p>
+
+<pre><code>tmp wesleystratton$ aws s3 mb s3://wesley-stratton-sam-getting-started-in-go
+make_bucket: wesley-stratton-sam-getting-started-in-go
+</code></pre>
+
+<h4 id="step-2-initialize-the-go-sam-set-up">Step 2 - Initialize the Go SAM set-up</h4>
+
+<p>We initalize our SAM application by downloading the default AWS set-up from AWS.</p>
+
+<pre><code>sam init --runtime go
+</code></pre>
+
+<p>Example</p>
+
+<pre><code>tmp wesleystratton$ sam init --runtime go
+[+] Initializing project structure...
+
+Project generated: ./sam-app
+
+Steps you can take next within the project folder
+===================================================
+[*] Install dependencies
+[*] Invoke Function: sam local invoke HelloWorldFunction --event event.json
+[*] Start API Gateway locally: sam local start-api
+
+Read sam-app/README.md for further instructions
+
+[*] Project initialization is now complete
+</code></pre>
+
+<h4 id="step-3-build-our-application">Step 3 - Build our application</h4>
+
+<p>Thankfully the default application comes with a convientent Makefile that gives us a simple command to compile the Go application for Lambda.</p>
+
+<pre><code>cd sam-app
+make build
+</code></pre>
+
+<p>Example</p>
+
+<pre><code>tmp wesleystratton$ cd sam-app/
+sam-app wesleystratton$ make build
+GOOS=linux GOARCH=amd64 go build -o hello-world/hello-world ./hello-world
+</code></pre>
+
+<h4 id="step-4-package-your-application-for-deployment">Step 4 - Package your application for deployment</h4>
+
+<p>To deploy the application we need to package and upload a zip to S3 for SAM/Cloudformation to deploy the Lambda from. Again, we should be using the same <code>{BUCKET_NAME}</code> from <code>Step 1</code>.</p>
+
+<pre><code>sam package --output-template packaged.yaml --s3-bucket {BUCKET_NAME}
+</code></pre>
+
+<p>Example</p>
+
+<pre><code>sam-app wesleystratton$ sam package --output-template packaged.yaml --s3-bucket wesley-stratton-sam-getting-started-in-go
+Uploading to 796bfad99ee70e5c5c3befce4ae3eec0  4926616 / 4926616.0  (100.00%)
+Successfully packaged artifacts and wrote output template to file packaged.yaml.
+Execute the following command to deploy the packaged template
+aws cloudformation deploy --template-file /private/tmp/sam-app/packaged.yaml --stack-name &lt;YOUR STACK NAME&gt;
+</code></pre>
+
+<h4 id="step-5-deploy-to-aws">Step 5 - Deploy to AWS</h4>
+
+<p>Now that we&rsquo;ve compile, packaged and uploaded our application the last step before making everything live is to deploy the application. Choose any <code>{STACK_NAME}</code> for your application. This step can take sometime, so don&rsquo;t fret if it&rsquo;s a couple of minutes before anything happens</p>
+
+<pre><code>sam deploy --template-file packaged.yaml --region us-west-2 --capabilities CAPABILITY_IAM --stack-name {STACK_NAME}
+</code></pre>
+
+<p>Example</p>
+
+<pre><code>sam-app wesleystratton$ sam deploy --template-file packaged.yaml --capabilities CAPABILITY_IAM --stack-name wesley-stratton-sam-getting-started-in-go-stack --profile serverlessUser
+
+Waiting for changeset to be created..
+Waiting for stack create/update to complete
+Successfully created/updated stack - wesley-stratton-sam-getting-started-in-go-stack
+</code></pre>
+
+<h4 id="step-6-test-in-aws">Step 6 - Test in AWS</h4>
+
+<p>Yay, we&rsquo;ve deployed to AWS cloud! Now we can try and hit the API Gateway endpoint directly. First we need to find what our API Gateway endpoint is and then curl that endpoint.</p>
+
+<pre><code>aws cloudformation describe-stacks --stack-name {STACK_NAME} --query &quot;Stacks[].Outputs&quot;
+curl https://{REST_API_ID}.execute-api.{REGION}.amazonaws.com/Prod/hello/
+</code></pre>
+
+<p>Example</p>
+
+<pre><code>sam-app wesleystratton$ aws cloudformation describe-stacks --stack-name wesley-stratton-sam-getting-started-in-go-stack --query &quot;Stacks[].Outputs&quot; --profile serverlessUser
+[
+    [
+        {
+            &quot;OutputKey&quot;: &quot;HelloWorldFunctionIamRole&quot;,
+            &quot;OutputValue&quot;: &quot;arn:aws:iam::474592883549:role/wesley-stratton-sam-getting-HelloWorldFunctionRole-TEHHHHHM038A&quot;,
+            &quot;Description&quot;: &quot;Implicit IAM Role created for Hello World function&quot;
+        },
+        {
+            &quot;OutputKey&quot;: &quot;HelloWorldAPI&quot;,
+            &quot;OutputValue&quot;: &quot;https://iqcjnyu5dd.execute-api.us-east-1.amazonaws.com/Prod/hello/&quot;,
+            &quot;Description&quot;: &quot;API Gateway endpoint URL for Prod environment for First Function&quot;
+        },
+        {
+            &quot;OutputKey&quot;: &quot;HelloWorldFunction&quot;,
+            &quot;OutputValue&quot;: &quot;arn:aws:lambda:us-east-1:474592883549:function:wesley-stratton-sam-getting-sta-HelloWorldFunction-ELKSKFD9YRZO&quot;,
+            &quot;Description&quot;: &quot;First Lambda Function ARN&quot;
+        }
+    ]
+]
+sam-app wesleystratton$ curl https://iqcjnyu5dd.execute-api.us-east-1.amazonaws.com/Prod/hello/
+Hello, 18.212.53.91
+</code></pre>
+
+<h4 id="step-7-optional-test-locally-with-docker">Step 7 (Optional) - Test locally with Docker</h4>
+
+<p>SAM gives us the option to also test our set-up locally without the need for AWS services. To do this we need Docker installed and running. We run each of these commands in different terminal tabs</p>
+
+<pre><code>sam local start-api
+curl http://127.0.0.1:3000/hello
+</code></pre>
+
+<p>Example
+SAM local tab</p>
+
+<pre><code>sam-app wesleystratton$ sam local start-api
+2019-08-04 22:48:38 Mounting HelloWorldFunction at http://127.0.0.1:3000/hello [GET]
+2019-08-04 22:48:38 You can now browse to the above endpoints to invoke your functions. You do not need to restart/reload SAM CLI while working on your functions, changes will be reflected instantly/automatically. You only need to restart SAM CLI if you update your AWS SAM template
+2019-08-04 22:48:38  * Running on http://127.0.0.1:3000/ (Press CTRL+C to quit)
+2019-08-04 22:48:42 Invoking hello-world (go1.x)
+2019-08-04 22:48:42 Found credentials in shared credentials file: ~/.aws/credentials
+
+Fetching lambci/lambda:go1.x Docker container image......
+2019-08-04 22:48:44 Mounting /private/tmp/sam-app/hello-world as /var/task:ro,delegated inside runtime container
+START RequestId: cd705b0e-1ae2-186f-6efd-d74852c10b29 Version: $LATEST
+END RequestId: cd705b0e-1ae2-186f-6efd-d74852c10b29
+REPORT RequestId: cd705b0e-1ae2-186f-6efd-d74852c10b29	Duration: 512.33 ms	Billed Duration: 600 ms	Memory Size: 128 MB	Max Memory Used: 11 MB	
+2019-08-04 22:48:46 No Content-Type given. Defaulting to 'application/json'.
+2019-08-04 22:48:46 127.0.0.1 - - [04/Aug/2019 22:48:46] &quot;GET /hello HTTP/1.1&quot; 200 -
+</code></pre>
+
+<p>curl tab</p>
+
+<pre><code>tmp wesleystratton$ curl http://127.0.0.1:3000/hello
+Hello, 192.168.0.0
+</code></pre>
+
+<h4 id="conclusion">Conclusion</h4>
+
+<p>There we have it. A quick and simple introduction to setting up a API Gateway/Lambda backend in AWS cloud using AWS SAM and Go.</p>
+
+<h4 id="clean-up">Clean-up</h4>
+
+<p>If you don&rsquo;t want all of the above hanging around in your AWS account the below commands will help clean things up.</p>
+
+<pre><code>aws cloudformation delete-stack --stack-name {STACK_NAME}
+aws s3 rb s3://{BUCKET_NAME} --force
+</code></pre>
+
+    </article>
+  </div>
+
+  
+  
+  
+
+  
+</body>
+
+</html>

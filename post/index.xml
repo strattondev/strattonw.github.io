@@ -6,10 +6,21 @@
     <description>Recent content in Posts on Wesley Stratton</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 21 Jul 2019 00:53:24 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 04 Aug 2019 22:12:14 -0700</lastBuildDate>
     
 	<atom:link href="https://stratton.dev/post/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>AWS SAM Getting Started in Go</title>
+      <link>https://stratton.dev/04-07-2019-sam-getting-started-go/</link>
+      <pubDate>Sun, 04 Aug 2019 22:12:14 -0700</pubDate>
+      
+      <guid>https://stratton.dev/04-07-2019-sam-getting-started-go/</guid>
+      <description>In this post we&amp;rsquo;re going to set-up, deploy and, optionally, locally test an API Gateway and Lambda API backend. Using the default AWS SAM Go set-up we&amp;rsquo;re going to deploy a Lambda that will be invoked by a GET API Gateway request.
+Command overview Below is a quick list of commands we&amp;rsquo;re going to be running to deploy our backend.
+# Creates a bucket for SAM to upload our packaged application to aws s3 mb s3://{BUCKET_NAME} # Creates the default SAM set-up for Go sam init --runtime go # Builds the application cd sam-app make build # Package and uploads the backend sam package --output-template packaged.</description>
+    </item>
     
     <item>
       <title>Solr Standalone Analysers</title>
