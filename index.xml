@@ -83,6 +83,15 @@ A session is started once a user logs in and expires either after a specific tim
     </item>
     
     <item>
+      <title>Lego</title>
+      <link>https://stratton.dev/lego/</link>
+      <pubDate>Thu, 23 May 2019 00:22:41 -0700</pubDate>
+      
+      <guid>https://stratton.dev/lego/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Moose</title>
       <link>https://stratton.dev/23-05-2019-moose/</link>
       <pubDate>Thu, 23 May 2019 00:18:23 -0700</pubDate>
