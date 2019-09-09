@@ -6,10 +6,20 @@
     <description>Recent content in aws on Wesley Stratton</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 04 Aug 2019 22:12:14 -0700</lastBuildDate>
+    <lastBuildDate>Sun, 08 Sep 2019 17:25:00 -0700</lastBuildDate>
     
 	<atom:link href="https://stratton.dev/tags/aws/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Secure Properties With KMS And Parameter Store</title>
+      <link>https://stratton.dev/08-08-2019-secure-properties-with-kms-and-parameter-store/</link>
+      <pubDate>Sun, 08 Sep 2019 17:25:00 -0700</pubDate>
+      
+      <guid>https://stratton.dev/08-08-2019-secure-properties-with-kms-and-parameter-store/</guid>
+      <description>Amazon AWS offers an out of the box solution for secrets, called AWS Secrets Manager. If you&amp;rsquo;re hosting one or two secrets, then AWS Secrets Manager is a cost-effective solution, but when you hit three or more secrets there is a cheaper solution to store those secrest. This cheaper solution comes in the form of AWS Key Management Service (KMS) and AWS Systems Manager Parameter Store.
+The pricing breakpoint comes at three secrest as AWS Secrets Manager has a $0.</description>
+    </item>
     
     <item>
       <title>AWS SAM Getting Started in Go</title>

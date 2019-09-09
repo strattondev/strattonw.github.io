@@ -1,0 +1,277 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="icon" href="/img/favicon.ico">
+  <meta name="generator" content="Hugo 0.55.6" />
+  
+  <meta name="description" content="Wesley Stratton">
+  
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="https://stratton.dev/apple-touch-icon.png">
+  
+  <link rel="icon" type="image/png" sizes="32x32" href="https://stratton.dev/favicon-32x32.png">
+  
+  <link rel="icon" type="image/png" sizes="16x16" href="https://stratton.dev/favicon-16x16.png">
+  
+  <link rel="mask-icon" href="https://stratton.dev/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  
+  <link rel="stylesheet" href="https://stratton.dev/css/bootstrap.min.css" />
+  
+  <title>Secure Properties With KMS And Parameter Store | Wesley Stratton</title>
+  
+  <style>
+body {
+  min-width: 300px;
+}
+
+.custom-navbar {
+  margin-bottom: 1em;
+  height: 60px;
+}
+
+.custom-navbar a {
+  display: inline-block; 
+  padding: 18px 0;
+  margin-right: 1em; 
+  font-weight: bold; 
+}
+
+.custom-navbar a:hover,
+.custom-navbar a:focus {
+  text-decoration: none; 
+}
+
+@media print {
+  .custom-navbar {
+    display: none;
+  }
+}
+
+article {
+  padding-bottom: 1em;
+}
+
+img {
+  max-width: 100%;
+}
+
+
+body {
+  background-color: #fff;
+}
+
+
+
+body {
+  color: #212529;
+}
+
+
+
+a {
+  color: #007bff;
+}
+
+
+
+a:hover,
+a:focus {
+  color: #0056b3;
+}
+
+
+
+.custom-navbar {
+  background-color: #FFF;
+}
+
+
+
+.custom-navbar a {
+  color: rgba(0, 0, 0, 0.75);
+}
+
+
+
+.custom-navbar a:hover,
+.custom-navbar a:focus {
+  color: rgba(0 , 0, 0, 1);
+}
+
+
+
+.container {
+  max-width: 800px;
+}
+
+
+
+pre {
+  display: block;
+  padding: 9.5px;
+  word-break: break-all;
+  word-wrap: break-word;
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+pre code {
+  padding: 0;
+  font-size: inherit;
+  color: inherit; 
+  white-space: pre-wrap;
+  background-color: transparent;
+  border: none;
+  border-radius: 0;
+}
+
+code {
+  padding: 2px 4px;
+  color: inherit; 
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: .9em;
+}
+
+
+
+blockquote,
+.blockquote {
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  font-size: 1em;
+  border-left: 5px solid #6c757d;
+}
+
+</style>
+  <script>
+    !function(t,e){if(t&&!("doNotTrack"in t.navigator&&"1"===t.navigator.doNotTrack||"visibilityState"in t.document&&"prerender"===t.document.visibilityState||"localhost"===t.location.hostname||"file:"===t.location.protocol))try{var o={u:t.location.protocol+"//"+t.location.hostname+t.location.pathname,ua:t.navigator.userAgent,r:t.document.referrer,b:t.navigator.userAgent.search(/(bot|spider|crawl)/gi)>-1};try{o.tz=Intl.DateTimeFormat().resolvedOptions().timeZone}catch(t){}var a=new XMLHttpRequest;a.open("POST","https://37ogj0rf82.execute-api.us-east-1.amazonaws.com/production/analytics",!0),a.setRequestHeader("Content-Type","text/plain; charset=UTF-8"),a.send(JSON.stringify(o))}catch(t){}}(window);
+  </script>
+</head>
+
+
+<body>
+  <nav class="custom-navbar">
+  <div class="container">
+    
+    <a href="/">Posts</a>
+    
+    <a href="/tags/">Tags</a>
+    
+    <a href="/aboot/">Aboot</a>
+    
+    <a href="/lego/">Lego</a>
+    
+  </div>
+</nav>
+  
+  <div class="container">
+    <article>
+      <h1>Secure Properties With KMS And Parameter Store</h1>
+<p>
+  <small class="text-secondary">
+  
+  
+  8 Sep 2019
+  </small>
+  
+
+<small><code><a href="https://stratton.dev/tags/aws">aws</a></code></small>
+
+
+<small><code><a href="https://stratton.dev/tags/lambda">lambda</a></code></small>
+
+
+<small><code><a href="https://stratton.dev/tags/kms">kms</a></code></small>
+
+
+<small><code><a href="https://stratton.dev/tags/golang">golang</a></code></small>
+
+
+<small><code><a href="https://stratton.dev/tags/parameter-store">parameter store</a></code></small>
+
+</p>
+
+
+<p>Amazon AWS offers an out of the box solution for secrets, called <a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a>. If you&rsquo;re hosting one or two secrets, then AWS Secrets Manager is a cost-effective solution, but when you hit three or more secrets there is a cheaper solution to store those secrest. This cheaper solution comes in the form of <a href="https://aws.amazon.com/kms/">AWS Key Management Service (KMS)</a> and <a href="https://aws.amazon.com/systems-manager/pricing/#Parameter_Store">AWS Systems Manager Parameter Store</a>.</p>
+
+<p>The pricing breakpoint comes at three secrest as <a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a> has a $0.40/secret/month ($1.20/month for three secrets) while <a href="https://aws.amazon.com/kms/">AWS Key Management Service (KMS)</a> has a $1/month cost for customer generated secret and <a href="https://aws.amazon.com/systems-manager/pricing/#Parameter_Store">AWS Systems Manager Parameter Store</a> is free for our usages.</p>
+
+<h4 id="create-customer-master-key-cmk">Create Customer Master Key (CMK)</h4>
+
+<p>The first thing we&rsquo;ll need to do is create a CMK inside KMS. We can follow this <a href="https://aws.amazon.com/systems-manager/pricing/#Parameter_Store">AWS guide</a> on how to create the CMK or run the below command to create a CMK with default setings. The below command requires the <code>kms:CreateKey</code> permission for the users making the request.</p>
+
+<pre><code>aws kms create-key
+</code></pre>
+
+<h4 id="encrypt-and-put-our-first-secret">Encrypt and put our first secret</h4>
+
+<p>Now that we have our CMK, we can encrypt and upload our secret into AWS Parameter Store. We&rsquo;ll run the below command which requires the <code>kms:Encrypt</code> permission.</p>
+
+<pre><code>aws ssm put-parameter \
+   --type String \
+   --name '/PARAM/NAME' \
+   --value $(aws kms encrypt \
+              --output text \
+              --query CiphertextBlob \
+              --key-id &lt;KEY_ID&gt; \
+              --plaintext &quot;PLAIN TEXT HERE&quot;)
+</code></pre>
+
+<h4 id="fetch-and-decrypt-out-secret">Fetch and decrypt out secret</h4>
+
+<p>We now have a CMK and an encrypted secret. The last item on our list is to decrypt that secret from parameter store. Since we&rsquo;re going to be doing this inside an application, in my case in <a href="https://golang.org">Go</a>, I&rsquo;ll provide the snippit in a copy/pastable format. The user that is going to be decrypting the secret will need the <code>kms:Decrypt</code> permission.</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#000;font-weight:bold">import</span> (
+	<span style="color:#d14">&#34;github.com/aws/aws-sdk-go/aws/session&#34;</span>
+	<span style="color:#d14">&#34;github.com/aws/aws-sdk-go/service/kms&#34;</span>
+)
+
+<span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Decrypt</span>(encrypted []<span style="color:#458;font-weight:bold">byte</span>, sess <span style="color:#000;font-weight:bold">*</span>session.Session) ([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#458;font-weight:bold">error</span>) {
+	kmsClient <span style="color:#000;font-weight:bold">:=</span> kms.<span style="color:#900;font-weight:bold">New</span>(sess)
+	decryptOutput, err <span style="color:#000;font-weight:bold">:=</span> kmsClient.<span style="color:#900;font-weight:bold">Decrypt</span>(<span style="color:#000;font-weight:bold">&amp;</span>kms.DecryptInput{
+		CiphertextBlob:    encrypted,
+	})
+
+	<span style="color:#000;font-weight:bold">if</span> err <span style="color:#000;font-weight:bold">!=</span> <span style="color:#000;font-weight:bold">nil</span> {
+		<span style="color:#000;font-weight:bold">return</span> <span style="color:#0086b3">make</span>([]<span style="color:#458;font-weight:bold">byte</span>, <span style="color:#099">0</span>), err
+	}
+
+	<span style="color:#000;font-weight:bold">return</span> decryptOutput.Plaintext, <span style="color:#000;font-weight:bold">nil</span>
+}</code></pre></div>
+<h4 id="bonus-getting-your-secret-into-your-aws-lambda">Bonus: Getting your secret into your AWS Lambda</h4>
+
+<p>The easiest way to get the secret into an AWS Lambda is to update your Lambdas SAM/Cloudformation deployment template.</p>
+
+<pre><code>Parameters:
+  SomeSecretReference:
+    Type: AWS::SSM::Parameter::Value&lt;String&gt;
+    Default: '/PARAM/NAME'
+Resources:
+  ReceiveLambda:  
+    Type: AWS::Serverless::Function
+    Properties: 
+      Environment:
+        Variables:
+          PARAM_NAME: !Ref SomeSecretReference
+</code></pre>
+
+<p>and then inside our AWS Lambda we can call the decrypt method like so:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">secret, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">Decrypt</span>([]<span style="color:#0086b3">byte</span>(os.<span style="color:#900;font-weight:bold">Getenv</span>(<span style="color:#d14">&#34;PARAM_NAME&#34;</span>)), session.<span style="color:#900;font-weight:bold">Must</span>(session.<span style="color:#900;font-weight:bold">NewSession</span>()))</code></pre></div>
+    </article>
+  </div>
+
+  
+  
+  
+
+  
+</body>
+
+</html>
