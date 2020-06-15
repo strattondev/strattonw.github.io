@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="/img/favicon.ico">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.69.0" />
   
   <meta name="description" content="Wesley Stratton">
   
@@ -186,26 +186,17 @@ blockquote,
 <small><code><a href="https://stratton.dev/tags/golang">golang</a></code></small>
 
 </p>
-
-
 <p>When a user logs into any applicaiton, their authorizaiton has to be persisted otherwise they will be required to re-authenticate with every request. One of the ways to accomplish this is to store a users &ldquo;session&rdquo;.</p>
-
 <p>A session is started once a user logs in and expires either after a specific time delay or on logout. Each logged in user and device has a unique session reference, or id, that is sent with every request the user makes after they are authenticated. Sessions can store informaiton about the current state of the user, but, in our example below we&rsquo;re only going to be using a session to verify authorization.</p>
-
 <h4 id="outline">Outline</h4>
-
 <p>In this post we&rsquo;ll be looking into how to create, persist and clear user sessions. As a simple example we&rsquo;ll be using the filesystem as the backend session store, but in reality any type of database/persistent store can be used as a session store.</p>
-
 <p>Our application will consist of three endpoint <code>/login</code>, <code>/authenticated</code>, and <code>/logout</code>.</p>
-
 <ul>
 <li><code>/login</code> -&gt; Will create and persist our sessions</li>
 <li><code>/authenticated</code> -&gt; Will only show if a user is authenticated, otherwise it will 403</li>
 <li><code>/logout</code> -&gt; Will clear our sessions</li>
 </ul>
-
 <h4 id="base-http-server">Base HTTP server</h4>
-
 <p>Lets begin by defining our base HTTP server that will handle the three routes</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">import</span> (
 	<span style="color:#d14">&#34;github.com/strattonw/go-basic-sessions/handlers&#34;</span>
@@ -219,9 +210,8 @@ blockquote,
 	http.<span style="color:#900;font-weight:bold">HandleFunc</span>(<span style="color:#d14">&#34;/logout&#34;</span>, handlers.Logout)
 
 	log.<span style="color:#900;font-weight:bold">Fatal</span>(http.<span style="color:#900;font-weight:bold">ListenAndServe</span>(<span style="color:#d14">&#34;:8080&#34;</span>, <span style="color:#000;font-weight:bold">nil</span>))
-}</code></pre></div>
-<h4 id="constants-and-structs">Constants and structs</h4>
-
+}
+</code></pre></div><h4 id="constants-and-structs">Constants and structs</h4>
 <p>For this example we&rsquo;re going to hard code our <em>super</em> secure username and password combination, which, so very obviously, should never be done in the real world. We&rsquo;re also going to define a <code>struct</code> that we will use to receive the authentication credentials from the user.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">const</span> (
 	u = <span style="color:#d14">&#34;admin&#34;</span>
@@ -233,11 +223,9 @@ blockquote,
 <span style="color:#000;font-weight:bold">type</span> Credentials <span style="color:#000;font-weight:bold">struct</span> {
 	Username <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;username&#34;`</span>
 	Password <span style="color:#458;font-weight:bold">string</span> <span style="color:#d14">`json:&#34;password&#34;`</span>
-}</code></pre></div>
-<h4 id="authentication-handler">Authentication handler</h4>
-
+}
+</code></pre></div><h4 id="authentication-handler">Authentication handler</h4>
 <p>The first handler we&rsquo;re going to define is the handler that will be behind authentication. We&rsquo;re doing this one first to make sure that we get a failed authenticaion when there is no possible way for us to become authenticated.</p>
-
 <p>As we&rsquo;re using the filesystem as the session  store our authentication handlers job is to check to make sure the file related to the session exists. If the file doesn&rsquo;t exist we can assume the session is invalid or it has expired.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Authenticated</span>(w http.ResponseWriter, r <span style="color:#000;font-weight:bold">*</span>http.Request) {
 	c, err <span style="color:#000;font-weight:bold">:=</span> r.<span style="color:#900;font-weight:bold">Cookie</span>(cookieName)
@@ -259,9 +247,8 @@ blockquote,
 	} <span style="color:#000;font-weight:bold">else</span> {
 		_, _ = w.<span style="color:#900;font-weight:bold">Write</span>([]<span style="color:#0086b3">byte</span>(<span style="color:#d14">&#34;Welcome\n&#34;</span>))
 	}
-}</code></pre></div>
-<p>If we test this handle out we&rsquo;ll see that we properly send back a Http 401 response type.</p>
-
+}
+</code></pre></div><p>If we test this handle out we&rsquo;ll see that we properly send back a Http 401 response type.</p>
 <pre><code>stratton.dev$ curl -i localhost:8080/authenticated
 HTTP/1.1 401 Unauthorized
 Date: Wed, 29 May 2019 05:38:01 GMT
@@ -271,10 +258,7 @@ stratton.dev$ curl -i --cookie &quot;strattonDevSession=sessionPlease&quot; loca
 HTTP/1.1 401 Unauthorized
 Date: Wed, 29 May 2019 05:39:56 GMT
 Content-Length: 0
-</code></pre>
-
-<h4 id="login-handler">Login handler</h4>
-
+</code></pre><h4 id="login-handler">Login handler</h4>
 <p>Next lets make the handler that will allow us to create the sessions when a user logs in. The main parts of our login handler will be to decode the credentials json, verify the credential accuracy and, if the credentials are valid, create the session and add it as a cookie to the response.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Login</span>(w http.ResponseWriter, r <span style="color:#000;font-weight:bold">*</span>http.Request) {
 	<span style="color:#000;font-weight:bold">var</span> credentials Credentials
@@ -313,9 +297,8 @@ Content-Length: 0
 		Value: token.<span style="color:#900;font-weight:bold">String</span>(),
 		Expires: time.<span style="color:#900;font-weight:bold">Now</span>().<span style="color:#900;font-weight:bold">Add</span>(<span style="color:#099">24</span> <span style="color:#000;font-weight:bold">*</span> time.Hour),
 	})
-}</code></pre></div>
-<p>First lets make sure we get a Http 401 response when passing in invalid credentials.</p>
-
+}
+</code></pre></div><p>First lets make sure we get a Http 401 response when passing in invalid credentials.</p>
 <pre><code>stratton.dev$ curl -d '{&quot;username&quot;:&quot;NotTheUsername&quot;,&quot;password&quot;:&quot;root&quot;}' -X POST -i localhost:8080/login
 HTTP/1.1 401 Unauthorized
 Date: Wed, 29 May 2019 05:46:25 GMT
@@ -325,19 +308,13 @@ stratton.dev$ curl -d '{&quot;username&quot;:&quot;admin&quot;,&quot;password&qu
 HTTP/1.1 401 Unauthorized
 Date: Wed, 29 May 2019 05:45:48 GMT
 Content-Length: 0
-</code></pre>
-
-<p>Since we know we&rsquo;ll fail with incorrect credentials lets make a request with valid credentials to create our session.</p>
-
+</code></pre><p>Since we know we&rsquo;ll fail with incorrect credentials lets make a request with valid credentials to create our session.</p>
 <pre><code>stratton.dev$ curl -d '{&quot;username&quot;:&quot;stratton&quot;,&quot;password&quot;:&quot;.dev&quot;}' -X POST -i localhost:8080/login
 HTTP/1.1 200 OK
 Set-Cookie: strattonDevSession=587105bc-c9b5-4900-9641-7203f24bafab; Expires=Thu, 30 May 2019 05:48:35 GMT
 Date: Wed, 29 May 2019 05:48:35 GMT
 Content-Length: 0
-</code></pre>
-
-<p>Awesome, we now have a session, lets copy that cookie and add it to our authenticated endpoint request. It should be noted that in a normal, non-curl, flow, the web browser would handle adding the cookie to subsequent requests for the user.</p>
-
+</code></pre><p>Awesome, we now have a session, lets copy that cookie and add it to our authenticated endpoint request. It should be noted that in a normal, non-curl, flow, the web browser would handle adding the cookie to subsequent requests for the user.</p>
 <pre><code>stratton.dev$ curl -i --cookie &quot;strattonDevSession=587105bc-c9b5-4900-9641-7203f24bafab&quot; localhost:8080/authenticated
 HTTP/1.1 200 OK
 Date: Wed, 29 May 2019 05:51:25 GMT
@@ -345,12 +322,8 @@ Content-Length: 8
 Content-Type: text/plain; charset=utf-8
 
 Welcome
-</code></pre>
-
-<p>We&rsquo;re now able to have users login and view authenticated pages using their session. The last step we need is to make sure that the users are able to logout and remove their session.</p>
-
+</code></pre><p>We&rsquo;re now able to have users login and view authenticated pages using their session. The last step we need is to make sure that the users are able to logout and remove their session.</p>
 <h4 id="logout-handler">Logout handler</h4>
-
 <p>The main goal for our logout handler is to remove the session from our session store, currently the filesystem, so the session cannot be used for authorization in the future. As we have the filesystem as our session store, to remove the session the store all we have to do is delete the session file.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">Logout</span>(w http.ResponseWriter, r <span style="color:#000;font-weight:bold">*</span>http.Request) {
 	c, err <span style="color:#000;font-weight:bold">:=</span> r.<span style="color:#900;font-weight:bold">Cookie</span>(cookieName)
@@ -376,9 +349,8 @@ Welcome
 		w.<span style="color:#900;font-weight:bold">WriteHeader</span>(http.StatusInternalServerError)
 		<span style="color:#000;font-weight:bold">return</span>
 	}
-}</code></pre></div>
-<p>Lets try this handler out by calling <code>/logout</code> and then <code>/authenticated</code> both with the session we generated during login. If all goes well <code>/logout</code> should return Http 200 and <code>/authenticated</code> should return Http 401, as the session is no longer valid.</p>
-
+}
+</code></pre></div><p>Lets try this handler out by calling <code>/logout</code> and then <code>/authenticated</code> both with the session we generated during login. If all goes well <code>/logout</code> should return Http 200 and <code>/authenticated</code> should return Http 401, as the session is no longer valid.</p>
 <pre><code>stratton.dev$ curl -i --cookie &quot;strattonDevSession=587105bc-c9b5-4900-9641-7203f24bafab&quot; localhost:8080/logout
 HTTP/1.1 200 OK
 Date: Wed, 29 May 2019 05:54:35 GMT
@@ -388,16 +360,10 @@ stratton.dev$ curl -i --cookie &quot;strattonDevSession=587105bc-c9b5-4900-9641-
 HTTP/1.1 401 Unauthorized
 Date: Wed, 29 May 2019 05:54:38 GMT
 Content-Length: 0
-</code></pre>
-
-<p>Awesome, we can now properly logout and remove our sessions from the session store.</p>
-
+</code></pre><p>Awesome, we can now properly logout and remove our sessions from the session store.</p>
 <h4 id="source">Source</h4>
-
 <p><a href="https://github.com/strattonw/go-basic-sessions">Github</a></p>
-
 <h4 id="conclusion">Conclusion</h4>
-
 <p>Here we&rsquo;ve shown a very simple way to implement session based authentication in Go. There are lots of places that we can take this basis, such as, changing the session store to redis or sql and adding the ability to expire sessions within the session store (currently sessions will live forever, or until we restart as we use <code>/tmp</code> for the filepath by default).</p>
 
     </article>

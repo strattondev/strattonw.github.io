@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="/img/favicon.ico">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.69.0" />
   
   <meta name="description" content="Wesley Stratton">
   
@@ -198,23 +198,13 @@ blockquote,
 <small><code><a href="https://stratton.dev/tags/parameter-store">parameter store</a></code></small>
 
 </p>
-
-
 <p>Amazon AWS offers an out of the box solution for secrets, called <a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a>. If you&rsquo;re hosting one or two secrets, then AWS Secrets Manager is a cost-effective solution, but when you hit three or more secrets there is a cheaper solution to store those secrest. This cheaper solution comes in the form of <a href="https://aws.amazon.com/kms/">AWS Key Management Service (KMS)</a> and <a href="https://aws.amazon.com/systems-manager/pricing/#Parameter_Store">AWS Systems Manager Parameter Store</a>.</p>
-
 <p>The pricing breakpoint comes at three secrest as <a href="https://aws.amazon.com/secrets-manager/">AWS Secrets Manager</a> has a $0.40/secret/month ($1.20/month for three secrets) while <a href="https://aws.amazon.com/kms/">AWS Key Management Service (KMS)</a> has a $1/month cost for customer generated secret and <a href="https://aws.amazon.com/systems-manager/pricing/#Parameter_Store">AWS Systems Manager Parameter Store</a> is free for our usages.</p>
-
 <h4 id="create-customer-master-key-cmk">Create Customer Master Key (CMK)</h4>
-
 <p>The first thing we&rsquo;ll need to do is create a CMK inside KMS. We can follow this <a href="https://aws.amazon.com/systems-manager/pricing/#Parameter_Store">AWS guide</a> on how to create the CMK or run the below command to create a CMK with default setings. The below command requires the <code>kms:CreateKey</code> permission for the users making the request.</p>
-
 <pre><code>aws kms create-key
-</code></pre>
-
-<h4 id="encrypt-and-put-our-first-secret">Encrypt and put our first secret</h4>
-
+</code></pre><h4 id="encrypt-and-put-our-first-secret">Encrypt and put our first secret</h4>
 <p>Now that we have our CMK, we can encrypt and upload our secret into AWS Parameter Store. We&rsquo;ll run the below command which requires the <code>kms:Encrypt</code> permission.</p>
-
 <pre><code>aws ssm put-parameter \
    --type String \
    --name '/PARAM/NAME' \
@@ -223,10 +213,7 @@ blockquote,
               --query CiphertextBlob \
               --key-id &lt;KEY_ID&gt; \
               --plaintext &quot;PLAIN TEXT HERE&quot;)
-</code></pre>
-
-<h4 id="fetch-and-decrypt-out-secret">Fetch and decrypt out secret</h4>
-
+</code></pre><h4 id="fetch-and-decrypt-out-secret">Fetch and decrypt out secret</h4>
 <p>We now have a CMK and an encrypted secret. The last item on our list is to decrypt that secret from parameter store. Since we&rsquo;re going to be doing this inside an application, in my case in <a href="https://golang.org">Go</a>, I&rsquo;ll provide the snippit in a copy/pastable format. The user that is going to be decrypting the secret will need the <code>kms:Decrypt</code> permission.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang"><span style="color:#000;font-weight:bold">import</span> (
 	<span style="color:#d14">&#34;github.com/aws/aws-sdk-go/aws/session&#34;</span>
@@ -244,11 +231,9 @@ blockquote,
 	}
 
 	<span style="color:#000;font-weight:bold">return</span> decryptOutput.Plaintext, <span style="color:#000;font-weight:bold">nil</span>
-}</code></pre></div>
-<h4 id="bonus-getting-your-secret-into-your-aws-lambda">Bonus: Getting your secret into your AWS Lambda</h4>
-
+}
+</code></pre></div><h4 id="bonus-getting-your-secret-into-your-aws-lambda">Bonus: Getting your secret into your AWS Lambda</h4>
 <p>The easiest way to get the secret into an AWS Lambda is to update your Lambdas SAM/Cloudformation deployment template.</p>
-
 <pre><code>Parameters:
   SomeSecretReference:
     Type: AWS::SSM::Parameter::Value&lt;String&gt;
@@ -260,10 +245,9 @@ Resources:
       Environment:
         Variables:
           PARAM_NAME: !Ref SomeSecretReference
-</code></pre>
-
-<p>and then inside our AWS Lambda we can call the decrypt method like so:</p>
-<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">secret, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">Decrypt</span>([]<span style="color:#0086b3">byte</span>(os.<span style="color:#900;font-weight:bold">Getenv</span>(<span style="color:#d14">&#34;PARAM_NAME&#34;</span>)), session.<span style="color:#900;font-weight:bold">Must</span>(session.<span style="color:#900;font-weight:bold">NewSession</span>()))</code></pre></div>
+</code></pre><p>and then inside our AWS Lambda we can call the decrypt method like so:</p>
+<div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-golang" data-lang="golang">secret, err <span style="color:#000;font-weight:bold">:=</span> <span style="color:#900;font-weight:bold">Decrypt</span>([]<span style="color:#0086b3">byte</span>(os.<span style="color:#900;font-weight:bold">Getenv</span>(<span style="color:#d14">&#34;PARAM_NAME&#34;</span>)), session.<span style="color:#900;font-weight:bold">Must</span>(session.<span style="color:#900;font-weight:bold">NewSession</span>()))
+</code></pre></div>
     </article>
   </div>
 

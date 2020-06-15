@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Wesley Stratton</title>
@@ -6,7 +6,7 @@
     <description>Recent content on Wesley Stratton</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 08 Sep 2019 17:25:00 -0700</lastBuildDate>
+    <lastBuildDate>Thu, 23 May 2019 00:22:41 -0700</lastBuildDate>
     
 	<atom:link href="https://stratton.dev/index.xml" rel="self" type="application/rss+xml" />
     
@@ -58,8 +58,8 @@ Before we start with the list of standalone analysers it should be noted that th
       
       <guid>https://stratton.dev/23-06-2019-spring-dependency-injection/</guid>
       <description>There are three ways to inject dependencies into beans in Spring, listed below. In this post we&amp;rsquo;ll quickly go over the three ways of injection.
- Constructor Setter Field  Constructor-based injection Constructor-based injection is typically the best way to go about injecting dependencies into beans. With constructor-based injection we&amp;rsquo;re able to enforce two main ideas,
- Missing consturctor-based beans will cause a BeanDefinitionException if the dependency is missing We&amp;rsquo;re able to make all constructor-based beans threadsafe by assigning them as private final class variables (more on this in a later blog post).</description>
+ Constructor   Setter Field  Constructor-based injection Constructor-based injection is typically the best way to go about injecting dependencies into beans. With constructor-based injection we&amp;rsquo;re able to enforce two main ideas,
+ Missing consturctor-based beans will cause a BeanDefinitionException if the dependency is missing   We&amp;rsquo;re able to make all constructor-based beans threadsafe by assigning them as private final class variables (more on this in a later blog post).</description>
     </item>
     
     <item>

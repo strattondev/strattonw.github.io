@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="/img/favicon.ico">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.69.0" />
   
   <meta name="description" content="Wesley Stratton">
   
@@ -195,14 +195,9 @@ blockquote,
 <small><code><a href="https://stratton.dev/tags/lambda">lambda</a></code></small>
 
 </p>
-
-
 <p>In this post we&rsquo;re going to build a simple serverless self-hosted analytics system. This is the simple set-up that I currently use to track visitors to my <a href="https://stratton.dev">website</a>. We&rsquo;ll use a few simple tools to track visitors of our websites.</p>
-
 <h4 id="overview">Overview</h4>
-
 <p>The tools and services we&rsquo;re going to use to build our simple analytics are:</p>
-
 <ul>
 <li>Golang</li>
 <li><a href="https://serverless.com">Serverless framework</a></li>
@@ -210,15 +205,10 @@ blockquote,
 <li>AWS Cloudwatch</li>
 <li>Javascript</li>
 </ul>
-
-<h4 id="golang-aws-lambda-serverless-framework">Golang/AWS Lambda/Serverless Framework</h4>
-
+<h4 id="golangaws-lambdaserverless-framework">Golang/AWS Lambda/Serverless Framework</h4>
 <p>To get things off the ground we want to implement a lambda function that we can hit when someone vists our website. For our analytics we&rsquo;re looking to be very unintrusive and to respect things like &ldquo;Do Not Track&rdquo;. The complete set-up can be found here, <a href="https://github.com/strattonw/static-website-analytics">https://github.com/strattonw/static-website-analytics</a>, but we&rsquo;ll quicly go through everything below.</p>
-
-<h6 id="serverless-yml">serverless.yml</h6>
-
+<h6 id="serverlessyml">serverless.yml</h6>
 <p>Here we define the serverless.yml file that will deploy our lambda function. Before you deploy you should change the <code>service: strattonDevAnalytics</code> to an app of your appropriate naming.</p>
-
 <pre><code>service: strattonDevAnalytics
 
 frameworkVersion: &quot;&gt;=1.28.0 &lt;2.0.0&quot;
@@ -242,10 +232,7 @@ functions:
       - http:
           path: analytics
           method: post
-</code></pre>
-
-<h6 id="main-go">main.go</h6>
-
+</code></pre><h6 id="maingo">main.go</h6>
 <p>The most important part of <code>main.go</code> is the <code>type Payload struct</code>. The <code>Payload</code> is the information that is sent to our analytics endpoint that we&rsquo;ll use for tracking visitors. For our simple display we&rsquo;re going to use CloudWatch Insights to display our simple graphs. As we&rsquo;re using CloudWatch Insights, all we have to do is log the values the stdout in a parseable format.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-go" data-lang="go"><span style="color:#000;font-weight:bold">package</span> main
 
@@ -280,11 +267,9 @@ functions:
 
 <span style="color:#000;font-weight:bold">func</span> <span style="color:#900;font-weight:bold">main</span>() {
 	lambda.<span style="color:#900;font-weight:bold">Start</span>(Handler)
-}</code></pre></div>
-<h5 id="deploying">Deploying</h5>
-
+}
+</code></pre></div><h5 id="deploying">Deploying</h5>
 <p>Thankfully serverless framework makes it easy for us to deploy with the <code>Makefile</code>. We should be able to run the <code>make deploy</code> command to deploy the lambda to our dev environment. As I&rsquo;m lazy and didn&rsquo;t want to always type <code>sls deploy --stage production</code> evertime I wanted to deploy to production, I&rsquo;ve added a make command to do just that, <code>make prod</code>. If everything with our deploy goes well we should see the following output</p>
-
 <pre><code>Service Information
 service: strattonDevAnalytics
 stage: dev
@@ -299,12 +284,8 @@ functions:
   analytics: strattonDevAnalytics-dev-analytics
 layers:
   None
-</code></pre>
-
-<p>The most important point from that output is the <code>POST - https://rzo9xb4e74.execute-api.us-east-1.amazonaws.com/dev/analytics</code> which is a url we&rsquo;re going to need in the next step when we implement the javascript.</p>
-
+</code></pre><p>The most important point from that output is the <code>POST - https://rzo9xb4e74.execute-api.us-east-1.amazonaws.com/dev/analytics</code> which is a url we&rsquo;re going to need in the next step when we implement the javascript.</p>
 <h4 id="javascript">Javascript</h4>
-
 <p>Now that we have a funcitoning lambda endpoint we need to implement the javascript that will allow us to track visitors. I&rsquo;ve added additional comments in the below snippet that don&rsquo;t appear in the actual code that explain what some lines are doing. We can either add this to specific pages or to the top of every page, it&rsquo;s your choice. In my case I put it in the head tag of every page so I can track all pageviews.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#000080">script</span>&gt;
 (<span style="color:#000;font-weight:bold">function</span>(<span style="color:#0086b3">window</span>, au) {
@@ -341,43 +322,28 @@ layers:
     }
            <span style="color:#998;font-style:italic">// Url from the above section
 </span><span style="color:#998;font-style:italic"></span>})(<span style="color:#0086b3">window</span>, <span style="color:#d14">&#34;https://rzo9xb4e74.execute-api.us-east-1.amazonaws.com/dev/analytics&#34;</span>);
-&lt;/<span style="color:#000080">script</span>&gt;</code></pre></div>
-<h4 id="testing">Testing</h4>
-
+&lt;/<span style="color:#000080">script</span>&gt;
+</code></pre></div><h4 id="testing">Testing</h4>
 <p>Now that we have the lambda deployed and the javascript inplace we want to make sure that everything is working as expected. The easiest way to do this is to remove the line in the javascript that prevents us from testing against <code>localhost</code>, or, if you&rsquo;re daring, test in production. Once we verify that our website is sending the xhr requests we should go to AWS CloudWatch and verify our logs. If all goes well we should see logs like:</p>
-
 <pre><code>url=https://stratton.dev/28-05-2019-go-basic-sessions/ ref=https://stratton.dev/ tz=America/Los_Angeles bot=false userAgent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Safari/605.1.15&quot;
 
 url=https://stratton.dev/tags/ ref=https://stratton.dev/28-05-2019-go-basic-sessions/ tz=America/Los_Angeles bot=false userAgent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Safari/605.1.15&quot;
 
 url=https://stratton.dev/ ref=https://stratton.dev/tags/ tz=America/Los_Angeles bot=false userAgent=&quot;Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_6) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Safari/605.1.15&quot;
-</code></pre>
-
-<h4 id="cloudwatch-insights">CloudWatch Insights</h4>
-
+</code></pre><h4 id="cloudwatch-insights">CloudWatch Insights</h4>
 <p>We have our entire flow set-up, now all we have to do it start getting metrics from our analytics. CloudWatch Insights gives us numerous possibilities to display our analytics. The most basic query to run against our log group would be</p>
-
 <pre><code>filter @message like /url/
 | parse @message &quot;url=* ref=* tz=* bot=* userAgent=\&quot;*\&quot;&quot; @url, @ref, @tz, @bot, @userAgent
 | sort @timestamp desc
-</code></pre>
-
-<p>This command will print out, in most to least recent order, the data that we&rsquo;ve collected. As we do some basic bot detection we can make sure we filter out bot requests by adding in <code>| filter @bot = &quot;false&quot;</code> to our query, giving us only non-bot pageviews.</p>
-
+</code></pre><p>This command will print out, in most to least recent order, the data that we&rsquo;ve collected. As we do some basic bot detection we can make sure we filter out bot requests by adding in <code>| filter @bot = &quot;false&quot;</code> to our query, giving us only non-bot pageviews.</p>
 <pre><code>filter @message like /url/
 | parse @message &quot;url=* ref=* tz=* bot=* userAgent=\&quot;*\&quot;&quot; @url, @ref, @tz, @bot, @userAgent
 | filter @bot = &quot;false&quot;
 | sort @timestamp desc
-</code></pre>
-
-<p>I recommend to visiting the <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html">AWS CloudWatch documentation</a> to build out many more queries with the data collected.</p>
-
+</code></pre><p>I recommend to visiting the <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AnalyzingLogData.html">AWS CloudWatch documentation</a> to build out many more queries with the data collected.</p>
 <h4 id="source">Source</h4>
-
 <p><a href="https://github.com/strattonw/static-website-analytics">Github</a></p>
-
 <h4 id="conclusion">Conclusion</h4>
-
 <p>We&rsquo;ve shown a simple serverless self-hosted way for us to track pageviews for our website or static blog. There are lots of ways that we could improve the logging, both on the frontend and the backend. A simple way to improve the backend tracking is to utilize a database, such as Dynamodb, to store our analytics instead of CloudWatch.</p>
 
     </article>

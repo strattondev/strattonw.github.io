@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="icon" href="/img/favicon.ico">
-  <meta name="generator" content="Hugo 0.55.6" />
+  <meta name="generator" content="Hugo 0.69.0" />
   
   <meta name="description" content="Wesley Stratton">
   
@@ -195,18 +195,11 @@ blockquote,
 <small><code><a href="https://stratton.dev/tags/dynamodb">dynamodb</a></code></small>
 
 </p>
-
-
 <p>At work we were recently looking into setting up somethings in DynamoDB with Spring Boot for the first time as a team. We hit up Google and ended up on this page, <a href="https://www.baeldung.com/spring-data-dynamodb">https://www.baeldung.com/spring-data-dynamodb</a>. Within a couple of seconds of reading there were a couple issues with this article that made we want to write this post. Now I know there are going to be issues with this post as well but I&rsquo;m covering the big ones that were in that post.</p>
-
-<h4 id="issue-1-aws-properties-in-application-properties">Issue #1: AWS properties in application.properties</h4>
-
+<h4 id="issue-1-aws-properties-in-applicationproperties">Issue #1: AWS properties in application.properties</h4>
 <p>In step 4 of the article it has you set-up the configuration for you application. Inside the application file it has you define <code>amazon.aws.accesskey</code> and <code>amazon.aws.secretkey</code> inside the <code>application.properties</code>. There are many security issues that arise from doing it this way, but my biggest complaint is that it doesn&rsquo;t use the Amazon specification of <a href="https://docs.aws.amazon.com/AWSJavaSDK/latest/javadoc/com/amazonaws/auth/DefaultAWSCredentialsProviderChain.html">DefaultAWSCredentialsProviderChain</a>.</p>
-
 <p>The <code>DefaultAWSCredentialsProviderChain</code> is the recommended, though not required, way of utilizing the AWS SDK. More documentation can be found here, <a href="https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html">https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/credentials.html</a>. This would allow us to move our application from development to production while utilizing local keys in development and EC2 AMI Roles in production.</p>
-
 <h4 id="issue-2-not-utilizing-the-sdk-builders">Issue #2: Not utilizing the SDK builders</h4>
-
 <p>Again in step 4 we have the following <code>@Bean</code> definition</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#3c5d5d;font-weight:bold">@Bean</span>
 <span style="color:#000;font-weight:bold">public</span> AmazonDynamoDB <span style="color:#900;font-weight:bold">amazonDynamoDB</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#000;font-weight:bold">{</span>
@@ -218,11 +211,9 @@ blockquote,
     <span style="color:#000;font-weight:bold">}</span>
      
     <span style="color:#000;font-weight:bold">return</span> amazonDynamoDB<span style="color:#000;font-weight:bold">;</span>
-<span style="color:#000;font-weight:bold">}</span></code></pre></div>
-<p>This creates a <code>com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient</code> object directly, which is <code>@Deprecated</code> in favour of the <code>com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder</code>. The builder gives a cleaner, more concise and non-deprecated version of creating your <code>com.amazonaws.services.dynamodbv2.AmazonDynamoDB</code>.</p>
-
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></div><p>This creates a <code>com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient</code> object directly, which is <code>@Deprecated</code> in favour of the <code>com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder</code>. The builder gives a cleaner, more concise and non-deprecated version of creating your <code>com.amazonaws.services.dynamodbv2.AmazonDynamoDB</code>.</p>
 <h4 id="issue-3-using-field-based-injection">Issue #3: Using field-based injection</h4>
-
 <p>Sticking with a theme of step 4, the values in the <code>DynamoDBConfig</code> are configured using field-based injection. I&rsquo;ve covered why field-based injection should be avoided in a previous post <a href="/23-06-2019-spring-dependency-injection/">Spring Dependecy Injection</a>. We can quickly fix this by utilizing contructor-based injection.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#3c5d5d;font-weight:bold">@Configuration</span>
 <span style="color:#3c5d5d;font-weight:bold">@EnableDynamoDBRepositories</span>
@@ -255,11 +246,9 @@ blockquote,
         <span style="color:#000;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">new</span> BasicAWSCredentials<span style="color:#000;font-weight:bold">(</span>
           amazonAWSAccessKey<span style="color:#000;font-weight:bold">,</span> amazonAWSSecretKey<span style="color:#000;font-weight:bold">);</span>
     <span style="color:#000;font-weight:bold">}</span>
-<span style="color:#000;font-weight:bold">}</span></code></pre></div>
-<p>Those are the issues that I have with the article. I know that no article is perfect and that it&rsquo;s up to the reader to properly implement the solutions provided because, sadly, we live in world of &ldquo;this article/post told me to do it this way&rdquo; so I&rsquo;m going to take that as gospel.</p>
-
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></div><p>Those are the issues that I have with the article. I know that no article is perfect and that it&rsquo;s up to the reader to properly implement the solutions provided because, sadly, we live in world of &ldquo;this article/post told me to do it this way&rdquo; so I&rsquo;m going to take that as gospel.</p>
 <h4 id="conclusion">Conclusion</h4>
-
 <p>One thing I would have like to see from the article would be to have it utilize more Springy things to do the configuration. In the article they&rsquo;re checking for <code>!StringUtils.isEmpty(amazonDynamoDBEndpoint)</code> to see if the endpoint should be configured. Instead of using the <code>StringUtils</code> we could use beans to configure the endpoind, if needed.</p>
 <div class="highlight"><pre style="background-color:#fff;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#3c5d5d;font-weight:bold">@Bean</span>
 <span style="color:#3c5d5d;font-weight:bold">@ConditionalOnProperty</span><span style="color:#000;font-weight:bold">(</span><span style="color:#d14">&#34;dynamodb.url&#34;</span><span style="color:#000;font-weight:bold">)</span>
@@ -271,8 +260,8 @@ blockquote,
 <span style="color:#3c5d5d;font-weight:bold">@Bean</span>
 <span style="color:#000;font-weight:bold">public</span> AmazonDynamoDB <span style="color:#900;font-weight:bold">amazonDynamoDB</span><span style="color:#000;font-weight:bold">(</span><span style="color:#3c5d5d;font-weight:bold">@Autowired</span><span style="color:#000;font-weight:bold">(</span>required <span style="color:#000;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">false</span><span style="color:#000;font-weight:bold">)</span> AwsClientBuilder<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">EndpointConfiguration</span> endpointConfiguration<span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
     <span style="color:#000;font-weight:bold">return</span> AmazonDynamoDBClientBuilder<span style="color:#000;font-weight:bold">.</span><span style="color:#008080">standard</span><span style="color:#000;font-weight:bold">().</span><span style="color:#008080">withEndpointConfiguration</span><span style="color:#000;font-weight:bold">(</span>endpointConfiguration<span style="color:#000;font-weight:bold">).</span><span style="color:#008080">build</span><span style="color:#000;font-weight:bold">();</span>
-<span style="color:#000;font-weight:bold">}</span></code></pre></div>
-<p>This allows us to use Spring beans to configure the builder without having to do logic checks on where the property exists or not.</p>
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></div><p>This allows us to use Spring beans to configure the builder without having to do logic checks on where the property exists or not.</p>
 
     </article>
   </div>
