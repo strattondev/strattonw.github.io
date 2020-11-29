@@ -6,11 +6,7 @@
     <description>Recent content in spring on Wesley Stratton</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Mon, 01 Jul 2019 17:54:37 -0700</lastBuildDate>
-    
-	<atom:link href="https://stratton.dev/tags/spring/index.xml" rel="self" type="application/rss+xml" />
-    
-    
+    <lastBuildDate>Mon, 01 Jul 2019 17:54:37 -0700</lastBuildDate><atom:link href="https://stratton.dev/tags/spring/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>DynamoDB and Spring Boot</title>
       <link>https://stratton.dev/01-07-2019-dynamodb-spring-boot/</link>
