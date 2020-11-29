@@ -1,21 +1,2 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?>
-<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
-  <channel>
-    <title>solr on Wesley Stratton</title>
-    <link>https://stratton.dev/tags/solr/</link>
-    <description>Recent content in solr on Wesley Stratton</description>
-    <generator>Hugo -- gohugo.io</generator>
-    <language>en-us</language>
-    <lastBuildDate>Sun, 21 Jul 2019 00:53:24 -0700</lastBuildDate><atom:link href="https://stratton.dev/tags/solr/index.xml" rel="self" type="application/rss+xml" />
-    <item>
-      <title>Solr Standalone Analysers</title>
-      <link>https://stratton.dev/21-07-2019-solr-single-analyser/</link>
-      <pubDate>Sun, 21 Jul 2019 00:53:24 -0700</pubDate>
-      
-      <guid>https://stratton.dev/21-07-2019-solr-single-analyser/</guid>
-      <description>To efficiently and effectively search text, Solr/Lucene, splits text into tokens (which are actually graphs) at index time as well as query time. These tokens/graphs can be both pre and post filtered to provide additional flexability. Though they can be pre and/or post filtered this post will only cover analysers that are standalone and are not chainable or pre/post filterable.
-Before we start with the list of standalone analysers it should be noted that these analysers only work on Solr text fields with the field type of solr.</description>
-    </item>
-    
-  </channel>
-</rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>solr on Wesley Stratton</title><link>https://stratton.dev/tags/solr/</link><description>Recent content in solr on Wesley Stratton</description><generator>Hugo -- gohugo.io</generator><language>en-us</language><lastBuildDate>Sun, 21 Jul 2019 00:53:24 -0700</lastBuildDate><atom:link href="https://stratton.dev/tags/solr/index.xml" rel="self" type="application/rss+xml"/><item><title>Solr Standalone Analysers</title><link>https://stratton.dev/21-07-2019-solr-single-analyser/</link><pubDate>Sun, 21 Jul 2019 00:53:24 -0700</pubDate><guid>https://stratton.dev/21-07-2019-solr-single-analyser/</guid><description>To efficiently and effectively search text, Solr/Lucene, splits text into tokens (which are actually graphs) at index time as well as query time. These tokens/graphs can be both pre and post filtered to provide additional flexability. Though they can be pre and/or post filtered this post will only cover analysers that are standalone and are not chainable or pre/post filterable.
+Before we start with the list of standalone analysers it should be noted that these analysers only work on Solr text fields with the field type of solr.</description></item></channel></rss>
